@@ -1,0 +1,286 @@
+#include <iostream>
+using namespace std;
+
+template < class DT > class VectorCJ
+{
+  private:
+	int _size;
+	DT* _array;
+  public:
+	VectorCJ();
+	VectorCJ(int i);
+	VectorCJ(const DT& d);
+	VectorCJ(const VectorCJ& d);
+	~VectorCJ();
+	void operator=(const VectorCJ& vec);
+	bool operator==(const VectorCJ& vec);
+	friend ostream & operator<< < DT > (ostream& s, const VectorCJ<DT>& vec);
+	DT get(int i);
+	VectorCJ < DT > get(int i, int j);
+	void add(DT d);
+	void add(VectorCJ<DT>* vec);
+	void insert(DT d, int i);
+	void insert(const VectorCJ<DT>& vec, int i);
+	void clear(int i);
+	void clear(int i, int j);
+	void remove(int i);
+	void remove(int i, int j);
+	int size();
+};
+
+template <class DT> VectorCJ<DT>::VectorCJ()
+{
+}
+
+template <class DT> VectorCJ<DT>::VectorCJ(int i)
+{
+	_size = i;
+	_array = new DT[_size];
+}
+
+template <class DT> VectorCJ <DT>::VectorCJ(const DT & d)
+{
+	_size = 0;
+	for (int i = 0; d[i] != '\0'; i++)
+		_size++;
+
+	_array = new DT[_size];
+	for (int i = 0; i < _size; i++)
+		_array[i] = d[i];
+}
+
+template <class DT> VectorCJ<DT>::VectorCJ(const VectorCJ<DT>& d)
+{
+	_size = d.size();
+	_array = new DT[_size];
+
+	for (int i = 0; i < _size; i++)
+		_array[i] = d.get(i);
+}
+
+template < class DT > VectorCJ < DT >::~VectorCJ()
+{
+	delete[]_array;
+}
+
+
+template < class DT > void VectorCJ < DT >::operator=(const VectorCJ < DT > &vec)
+{
+	_size = vec.size();
+	delete[]_array;
+	_array = new DT[_size];
+
+	for (int i = 0; i < _size; i++)
+		_array[i] = vec.get(i);
+}
+
+
+template < class DT > bool VectorCJ < DT >::operator==(const VectorCJ < DT > &vec)
+{
+	if (_size != vec.size())
+		return false;
+	for (int i = 0; i < _size; i++)
+	{
+		if (_array[i] != vec.get(i))
+			return false;
+	}
+
+	return true;
+}
+
+template < class DT >
+	ostream & operator<< < DT > (ostream & s, const VectorCJ < DT > &vec)
+{
+	s << '[';
+	for (int i = 0; i < vec.size(); i++)
+	{
+		s << vec.get(i) << ", ";
+	}
+	s << ']' << endl;
+
+	return s;
+}
+
+template < class DT > DT VectorCJ < DT >::get(int i)
+{
+	if (i < _size)
+		return _array[i];
+}
+
+template < class DT > VectorCJ < DT > VectorCJ < DT >::get(int i, int j)
+{
+	VectorCJ < DT > returned;
+	while (i <= j)
+	{
+		returned.add(_array[i]);
+	}
+
+	return returned;
+}
+
+template < class DT > void VectorCJ < DT >::add(DT d)
+{
+	DT *temp;
+	temp = new DT[_size];
+
+	for (int i = 0; i < _size; i++)
+		temp[i] = _array[i];
+
+	delete[]_array;
+	_array = new DT[(_size + 1)];
+
+	for (int i = 0; i < (_size + 1); i++)
+		_array[i] = temp[i];
+
+	_size++;
+	_array[(_size - 1)] = d;
+}
+
+template < class DT > void VectorCJ < DT >::add(VectorCJ < DT > *vec)
+{
+	DT *temp;
+	temp = new DT[_size];
+
+	for (int i = 0; i < _size; i++)
+		temp[i] = _array[i];
+
+	delete[]_array;
+	_array = new DT[(_size + vec->size())];
+
+	for (int i = 0; i < (_size + vec->size()); i++)
+		_array[i] = temp[i];
+
+	for (int i = (_size - 1), j = 0; i < (_size + vec->size()); i++, j++)
+		_array[i] = vec->get(j);
+
+	_size = _size + vec->size();
+}
+
+template < class DT > void VectorCJ < DT >::insert(DT d, int i)
+{
+
+}
+
+template < class DT > void VectorCJ < DT >::insert(const VectorCJ < DT > &vec, int i)
+{
+
+}
+
+template < class DT > void VectorCJ < DT >::clear(int i)
+{
+
+}
+
+template < class DT > void VectorCJ < DT >::clear(int i, int j)
+{
+
+}
+
+template < class DT > void VectorCJ < DT >::remove(int i)
+{
+
+}
+
+template < class DT > void VectorCJ < DT >::remove(int i, int j)
+{
+
+}
+
+template < class DT > int VectorCJ < DT >::size()
+{
+	return _size;
+}
+
+class StringCJ
+{
+private:
+	VectorCJ<char> _string;
+public:
+	StringCJ();
+	StringCJ(char* c);
+	StringCJ(const StringCJ & s);
+	~StringCJ();
+	void operator= (const StringCJ& s);
+	bool operator == (const StringCJ& s);
+	bool operator == (char* c);
+	friend ostream& operator<< (ostream& s, StringCJ& st);
+	VectorCJ<StringCJ> break(char c);
+	StringCJ decomment(char c);
+};
+
+StringCJ::StringCJ() 
+{
+	
+}
+
+StringCJ::StringCJ(char* c) 
+{
+	
+}
+
+StringCJ::StringCJ(const StringCJ& s) 
+{
+	
+}
+
+StringCJ::~StringCJ() 
+{
+	delete _string;
+}
+
+void StringCJ::operator=(const StringCJ& s) 
+{
+	
+}
+
+bool StringCJ::operator==(const StringCJ& s) 
+{
+	
+}
+
+bool StringCJ::operator==(char* c) 
+{
+	
+}
+
+ostream& operator<< (ostream& s, StringCJ& st) 
+{
+	
+}
+
+VectorCJ<StringCJ> StringCJ::break(char c) 
+{
+	
+}
+
+StringCJ StringCJ::decomment(char c) 
+{
+	
+}
+
+int main()
+{
+	// VectorCJ<int>* cj = new VectorCJ<int>();
+	// 
+	// VectorCJ<int>* clj;
+
+	// cj->add(15);
+	// cj->add(25);
+	// cj->add(35);
+
+	// clj = cj;
+
+	// cout << clj->size() << " " << clj << endl;
+	// cout << (clj == cj) << endl;
+
+	// clj->add(cj);
+
+	// cout << clj->size() << " " << clj << endl;
+
+	VectorCJ < int >*vec = new VectorCJ < int >();
+	vec->add(15);
+	vec->add(21);
+	vec->add(39);
+	cout << vec << endl << endl;
+	return 0;
+}
